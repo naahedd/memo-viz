@@ -342,6 +342,32 @@ class MusicPlayer {
                 }
             }, 2000);
         }
+
+        // Pre-loaded song list
+        this.songs = [
+            {
+                title: "Sunset Dreams",
+                artist: "Lofi Beats",
+                preview: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
+            },
+            {
+                title: "Morning Coffee",
+                artist: "Lofi Girl",
+                preview: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_872b4b9c4f.mp3"
+            },
+            {
+                title: "Ocean Waves",
+                artist: "Chill Vibes",
+                preview: "https://cdn.pixabay.com/download/audio/2022/05/12/audio_279a4a513c.mp3"
+            },
+            {
+                title: "Midnight Study",
+                artist: "Study Beats",
+                preview: "https://cdn.pixabay.com/download/audio/2022/05/09/audio_4b959dacd9.mp3"
+            }
+        ];
+
+        this.initializeLocalSearch();
     }
     
     initializeDeezer() {
@@ -518,6 +544,52 @@ class MusicPlayer {
         this.isPlaying = false;
         this.updatePlayPauseIcon();
         this.progressBar.style.width = '0%';
+    }
+
+    initializeLocalSearch() {
+        this.searchInput.placeholder = "Search from library...";
+        
+        this.searchInput.addEventListener('input', () => {
+            const query = this.searchInput.value.toLowerCase().trim();
+            
+            if (!query) {
+                this.searchResults.style.display = 'none';
+                return;
+            }
+
+            const results = this.songs.filter(song => 
+                song.title.toLowerCase().includes(query) || 
+                song.artist.toLowerCase().includes(query)
+            );
+
+            this.searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                this.searchResults.innerHTML = '<div class="search-result-item">No songs found</div>';
+            } else {
+                results.forEach(song => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.innerHTML = `
+                        <span class="track-title">${song.title}</span>
+                        <span class="track-artist">${song.artist}</span>
+                    `;
+                    div.addEventListener('click', () => this.loadTrack(song));
+                    this.searchResults.appendChild(div);
+                });
+            }
+
+            this.searchResults.style.display = 'block';
+        });
+    }
+
+    // Update loadTrack to work with our song format
+    loadTrack(song) {
+        this.audio.src = song.preview;
+        this.trackName.textContent = `${song.title} - ${song.artist}`;
+        this.searchResults.style.display = 'none';
+        this.searchInput.value = '';
+        this.play();
     }
 }
 
