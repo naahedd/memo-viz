@@ -324,38 +324,54 @@ class MusicPlayer {
                 this.searchInput.blur(); // Optional: also unfocus the search input
             }
         });
+
+        // Debug Deezer initialization
+        if (typeof DZ === 'undefined') {
+            console.error('Deezer SDK not loaded');
+            this.searchInput.placeholder = 'Loading Deezer...';
+            this.searchInput.disabled = true;
+            
+            // Try to reinitialize after a delay
+            setTimeout(() => {
+                if (typeof DZ !== 'undefined') {
+                    this.initializeDeezer();
+                    this.searchInput.placeholder = 'Search Songs...';
+                    this.searchInput.disabled = false;
+                } else {
+                    this.searchInput.placeholder = 'Deezer unavailable';
+                }
+            }, 2000);
+        }
     }
     
     initializeDeezer() {
-        return new Promise((resolve, reject) => {
-            // Initialize Deezer SDK with production configuration
-            window.dzAsyncInit = () => {
-                DZ.init({
-                    appId: '628724',
-                    channelUrl: `${window.location.protocol}//${window.location.host}/channel.html`,
-                    player: false
-                }).then(() => {
-                    this.deezerInitialized = true;
-                    this.initQueue.forEach(fn => fn());
-                    this.initQueue = [];
-                    resolve();
-                }).catch(reject);
-            };
-
-            // Load Deezer SDK with better error handling
-            const script = document.createElement('script');
-            script.src = 'https://e-cdn-files.dzcdn.net/js/min/dz.js';
-            script.async = true;
-            script.crossOrigin = 'anonymous';
+        window.dzAsyncInit = () => {
+            DZ.init({
+                appId: '628724',
+                channelUrl: `${window.location.origin}/channel.html`,
+                player: false
+            });
             
-            script.onerror = () => {
-                console.error('Failed to load Deezer SDK');
-                this.handleDeezerError();
-                reject(new Error('Failed to load Deezer SDK'));
-            };
+            // Log successful initialization
+            console.log('Deezer initialized');
+            
+            // Enable search input
+            this.searchInput.placeholder = 'Search Songs...';
+            this.searchInput.disabled = false;
+        };
 
-            document.getElementById('dz-root').appendChild(script);
-        });
+        // Load Deezer SDK
+        const script = document.createElement('script');
+        script.src = 'https://e-cdn-files.dzcdn.net/js/min/dz.js';
+        script.async = true;
+        
+        script.onerror = () => {
+            console.error('Failed to load Deezer SDK');
+            this.searchInput.placeholder = 'Deezer unavailable';
+            this.searchInput.disabled = true;
+        };
+
+        document.getElementById('dz-root').appendChild(script);
     }
 
     handleDeezerError() {
