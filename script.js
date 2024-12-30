@@ -310,6 +310,7 @@ class MusicPlayer {
 
         this.initializeLocalSearch();
         this.initializeEvents();
+        this.progressContainer.addEventListener('click', (e) => this.seek(e));
     }
 
     initializeLocalSearch() {
@@ -429,21 +430,11 @@ class MusicPlayer {
         this.progressBar.style.width = '0%';
     }
 
-    seek(event) {
-        // Get the bounds of the progress bar
-        const bounds = this.progressContainer.getBoundingClientRect();
-        
-        // Calculate click position relative to the progress bar
-        const clickPosition = event.clientX - bounds.left;
-        const containerWidth = bounds.width;
-        
-        // Calculate percentage and set time
-        const percentage = clickPosition / containerWidth;
-        const duration = this.audio.duration;
-        this.audio.currentTime = percentage * duration;
-        
-        // Update progress bar immediately
-        this.progressBar.style.width = `${percentage * 100}%`;
+    seek(e) {
+        // Calculate percentage
+        const percent = e.offsetX / this.progressContainer.offsetWidth;
+        // Set time based on percentage
+        this.audio.currentTime = percent * this.audio.duration;
     }
 }
 
