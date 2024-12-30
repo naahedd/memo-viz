@@ -6,13 +6,6 @@
         { "src": "*.css", "use": "@vercel/static" },
         { "src": "assets/**", "use": "@vercel/static" }
     ],
-    "routes": [
-        { "src": "/channel.html", "dest": "/channel.html" },
-        { "src": "/assets/(.*)", "dest": "/assets/$1" },
-        { "src": "/(.*)\\.js", "dest": "/$1.js" },
-        { "src": "/(.*)\\.css", "dest": "/$1.css" },
-        { "src": "/(.*)", "dest": "/index.html" }
-    ],
     "headers": [
         {
             "source": "/(.*)",
@@ -22,5 +15,14 @@
                 { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Accept" }
             ]
         }
-    ]
+    ],
+    "rewrites": [
+        { "source": "/channel.html", "destination": "/channel.html" },
+        { "source": "/assets/:path*", "destination": "/assets/:path*" },
+        { "source": "/:path*.js", "destination": "/:path*.js" },
+        { "source": "/:path*.css", "destination": "/:path*.css" },
+        { "source": "/(.*)", "destination": "/index.html" }
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
 } 
