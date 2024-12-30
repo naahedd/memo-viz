@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "builds": [
+        { "src": "*.html", "use": "@vercel/static" },
+        { "src": "*.js", "use": "@vercel/node" },
+        { "src": "*.css", "use": "@vercel/static" },
+        { "src": "assets/**", "use": "@vercel/static" }
+    ],
+    "routes": [
+        { "src": "/channel.html", "dest": "/channel.html" },
+        { "src": "/assets/(.*)", "dest": "/assets/$1" },
+        { "src": "/(.*)\\.js", "dest": "/$1.js" },
+        { "src": "/(.*)\\.css", "dest": "/$1.css" },
+        { "src": "/(.*)", "dest": "/index.html" }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                { "key": "Access-Control-Allow-Origin", "value": "*" },
+                { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
+                { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Accept" }
+            ]
+        }
+    ]
+} 

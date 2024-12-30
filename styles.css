@@ -1,0 +1,401 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 500vh;
+    width: 100vw;
+    background-color: #e6e5e3;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    padding: 1.5em;
+    display: flex;
+    z-index: 2;
+    mix-blend-mode: difference;
+}
+
+.nav-col {
+    flex: 1;
+}
+
+.nav-col:nth-child(1) {
+    display: flex;
+}
+
+.nav-col:nth-child(1) p {
+    flex: 1;
+}
+
+.nav-col:nth-child(2)  {
+    text-align: right;
+}
+
+p {
+    text-transform: uppercase;
+    font-family: 'PP Monument Extended';
+    font-size: 10px;
+    font-weight: bolder;
+    line-height: 1.125;
+    color: #fff;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: 1.5em;
+    display: flex;
+    z-index: 2;
+    justify-content: space-between;
+    mix-blend-mode: difference;
+}
+
+.lenis.lenis-smooth{
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent]{
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped{
+    overflow: clip;
+}
+
+.lenis.lenis-smooth iframe{
+    pointer-events: none;
+}
+
+.music-player {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 12px;
+    width: 300px;
+    z-index: 1000;
+    color: white;
+    font-family: 'PP Monument Extended', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-container {
+    position: relative;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+}
+
+#searchInput:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.track-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.track-artist {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.no-results {
+    cursor: default;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.control-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Animation for play/pause transition */
+.play-icon, .pause-icon {
+    transition: transform 0.2s ease;
+}
+
+.play-icon {
+    transform: translateX(1px);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .music-player {
+        bottom: 15px;
+        left: 15px;
+        padding: 12px 15px;
+    }
+
+    .track-info {
+        min-width: 140px;
+    }
+
+    #playPauseBtn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+.file-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.file-input::-webkit-file-upload-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 8px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.file-input::-webkit-file-upload-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Add/update these responsive styles */
+@media screen and (max-width: 768px) {
+    /* Gallery adjustments */
+    canvas {
+        touch-action: pan-y pinch-zoom;
+    }
+
+    /* Music player adjustments */
+    .music-player {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-width: calc(100% - 20px);
+        padding: 12px;
+    }
+
+    .player-content {
+        gap: 10px;
+    }
+
+    .file-input {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .file-input::-webkit-file-upload-button {
+        padding: 6px 10px;
+        margin-right: 8px;
+    }
+
+    .track-name {
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .progress-container {
+        gap: 8px;
+    }
+
+    .current-time,
+    .duration {
+        font-size: 10px;
+    }
+
+    .control-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    .music-player {
+        padding: 10px;
+    }
+
+    .player-content {
+        gap: 8px;
+    }
+
+    .progress-container {
+        gap: 5px;
+    }
+}
+
+/* Prevent text selection on controls */
+.music-player {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Improve touch targets */
+.control-btn {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.progress-bar {
+    min-height: 15px;
+    margin: 5px 0;
+}
+
+/* Add smooth transitions */
+.music-player * {
+    transition: all 0.3s ease;
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .music-player {
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+}
+
+.upload-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.upload-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.upload-button:active {
+    transform: translateY(0px);
+}
