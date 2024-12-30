@@ -292,258 +292,23 @@ class MusicPlayer {
         this.searchInput = document.getElementById('searchInput');
         this.searchResults = document.getElementById('searchResults');
         this.progressBar = document.querySelector('.progress');
-        this.progressContainer = document.querySelector('.progress-bar');
         this.trackName = document.querySelector('.track-name');
         this.currentTime = document.querySelector('.current-time');
         this.duration = document.querySelector('.duration');
         
         this.isPlaying = false;
-        this.deezerInitialized = false;
-        this.initQueue = [];
-        this.initializeDeezer();
-        this.initializeEvents();
         
-        // Simpler scroll handling
-        this.searchResults.addEventListener('wheel', (e) => {
-            e.stopPropagation();
-            this.searchResults.scrollTop += e.deltaY;
-        });
-        
-        // Add click outside listener
-        document.addEventListener('click', (e) => {
-            if (!this.searchResults.contains(e.target) && 
-                !this.searchInput.contains(e.target)) {
-                this.searchResults.style.display = 'none';
-            }
-        });
-        
-        // Add escape key listener
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.searchResults.style.display = 'none';
-                this.searchInput.blur(); // Optional: also unfocus the search input
-            }
-        });
-
-        // Debug Deezer initialization
-        if (typeof DZ === 'undefined') {
-            console.error('Deezer SDK not loaded');
-            this.searchInput.placeholder = 'Loading Deezer...';
-            this.searchInput.disabled = true;
-            
-            // Try to reinitialize after a delay
-            setTimeout(() => {
-                if (typeof DZ !== 'undefined') {
-                    this.initializeDeezer();
-                    this.searchInput.placeholder = 'Search Songs...';
-                    this.searchInput.disabled = false;
-                } else {
-                    this.searchInput.placeholder = 'Deezer unavailable';
-                }
-            }, 2000);
-        }
-
-        // Pre-loaded song list
+        // Single pre-loaded song
         this.songs = [
             {
                 title: "Sunset Dreams",
                 artist: "Lofi Beats",
                 preview: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
-            },
-            {
-                title: "Morning Coffee",
-                artist: "Lofi Girl",
-                preview: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_872b4b9c4f.mp3"
-            },
-            {
-                title: "Ocean Waves",
-                artist: "Chill Vibes",
-                preview: "https://cdn.pixabay.com/download/audio/2022/05/12/audio_279a4a513c.mp3"
-            },
-            {
-                title: "Midnight Study",
-                artist: "Study Beats",
-                preview: "https://cdn.pixabay.com/download/audio/2022/05/09/audio_4b959dacd9.mp3"
             }
         ];
 
         this.initializeLocalSearch();
-    }
-    
-    initializeDeezer() {
-        window.dzAsyncInit = () => {
-            DZ.init({
-                appId: '628724',
-                channelUrl: `${window.location.origin}/channel.html`,
-                player: false
-            });
-            
-            // Log successful initialization
-            console.log('Deezer initialized');
-            
-            // Enable search input
-            this.searchInput.placeholder = 'Search Songs...';
-            this.searchInput.disabled = false;
-        };
-
-        // Load Deezer SDK
-        const script = document.createElement('script');
-        script.src = 'https://e-cdn-files.dzcdn.net/js/min/dz.js';
-        script.async = true;
-        
-        script.onerror = () => {
-            console.error('Failed to load Deezer SDK');
-            this.searchInput.placeholder = 'Deezer unavailable';
-            this.searchInput.disabled = true;
-        };
-
-        document.getElementById('dz-root').appendChild(script);
-    }
-
-    handleDeezerError() {
-        // Fallback functionality when Deezer fails
-        this.searchInput.placeholder = "Deezer unavailable - Try again later";
-        this.searchInput.disabled = true;
-    }
-    
-    initializeEvents() {
-        let searchTimeout;
-        this.searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => this.searchTracks(), 500);
-        });
-        
-        this.playPauseBtn.addEventListener('click', () => this.togglePlay());
-        
-        this.progressContainer.addEventListener('click', (e) => {
-            const rect = this.progressContainer.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            if (this.audio.duration) {
-                this.audio.currentTime = this.audio.duration * percent;
-            }
-        });
-        
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.audio.addEventListener('ended', () => this.handleTrackEnd());
-        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
-    }
-    
-    async searchTracks() {
-        if (!this.deezerInitialized) {
-            console.warn('Deezer not initialized yet');
-            return;
-        }
-
-        const query = this.searchInput.value.trim();
-        if (!query) {
-            this.searchResults.style.display = 'none';
-            return;
-        }
-        
-        try {
-            DZ.api(`/search?q=${encodeURIComponent(query)}&limit=8`, (response) => {
-                this.searchResults.innerHTML = '';
-                this.searchResults.style.display = 'block';
-                this.searchResults.style.maxHeight = '200px';
-                this.searchResults.style.overflowY = 'auto';
-                this.searchResults.style.zIndex = '1000';
-                this.searchResults.style.background = '#000';
-                
-                if (!response.data || response.data.length === 0) {
-                    const div = document.createElement('div');
-                    div.className = 'search-result-item no-results';
-                    div.textContent = 'No tracks found. Try another search.';
-                    this.searchResults.appendChild(div);
-                    return;
-                }
-                
-                response.data.forEach(track => {
-                    if (track.preview) {
-                        const div = document.createElement('div');
-                        div.className = 'search-result-item';
-                        div.innerHTML = `
-                            <span class="track-title">${track.title}</span>
-                            <span class="track-artist">${track.artist.name}</span>
-                        `;
-                        div.addEventListener('click', () => this.loadTrack(track));
-                        this.searchResults.appendChild(div);
-                    }
-                });
-            });
-        } catch (error) {
-            console.error('Search failed:', error);
-            this.searchResults.innerHTML = '<div class="search-result-item no-results">Search failed. Please try again.</div>';
-            this.searchResults.style.display = 'block';
-        }
-    }
-    
-    async loadTrack(track) {
-        try {
-            this.audio.src = track.preview;
-            this.trackName.textContent = `${track.title} - ${track.artist.name}`;
-            this.searchResults.style.display = 'none';
-            this.searchInput.value = '';
-            this.play();
-        } catch (error) {
-            console.error('Failed to load track:', error);
-        }
-    }
-    
-    togglePlay() {
-        if (!this.audio.src) return;
-        
-        if (this.isPlaying) {
-            this.pause();
-        } else {
-            this.play();
-        }
-    }
-    
-    play() {
-        this.audio.play();
-        this.isPlaying = true;
-        this.updatePlayPauseIcon();
-    }
-    
-    pause() {
-        this.audio.pause();
-        this.isPlaying = false;
-        this.updatePlayPauseIcon();
-    }
-    
-    updatePlayPauseIcon() {
-        const playIcon = this.playPauseBtn.querySelector('.play-icon');
-        const pauseIcon = this.playPauseBtn.querySelector('.pause-icon');
-        
-        if (this.isPlaying) {
-            playIcon.classList.add('hidden');
-            pauseIcon.classList.remove('hidden');
-        } else {
-            playIcon.classList.remove('hidden');
-            pauseIcon.classList.add('hidden');
-        }
-    }
-    
-    formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-    
-    updateProgress() {
-        const percent = (this.audio.currentTime / this.audio.duration) * 100;
-        this.progressBar.style.width = `${percent}%`;
-        this.currentTime.textContent = this.formatTime(this.audio.currentTime);
-    }
-    
-    updateDuration() {
-        this.duration.textContent = this.formatTime(this.audio.duration);
-    }
-    
-    handleTrackEnd() {
-        this.isPlaying = false;
-        this.updatePlayPauseIcon();
-        this.progressBar.style.width = '0%';
+        this.initializeEvents();
     }
 
     initializeLocalSearch() {
@@ -583,13 +348,82 @@ class MusicPlayer {
         });
     }
 
-    // Update loadTrack to work with our song format
+    initializeEvents() {
+        this.playPauseBtn.addEventListener('click', () => this.togglePlay());
+        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.addEventListener('ended', () => this.handleTrackEnd());
+        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.searchResults.contains(e.target) && 
+                !this.searchInput.contains(e.target)) {
+                this.searchResults.style.display = 'none';
+            }
+        });
+    }
+
     loadTrack(song) {
         this.audio.src = song.preview;
         this.trackName.textContent = `${song.title} - ${song.artist}`;
         this.searchResults.style.display = 'none';
         this.searchInput.value = '';
         this.play();
+    }
+
+    togglePlay() {
+        if (this.isPlaying) {
+            this.pause();
+        } else {
+            this.play();
+        }
+    }
+
+    play() {
+        this.audio.play();
+        this.isPlaying = true;
+        this.updatePlayPauseIcon();
+    }
+
+    pause() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.updatePlayPauseIcon();
+    }
+
+    updatePlayPauseIcon() {
+        const playIcon = this.playPauseBtn.querySelector('.play-icon');
+        const pauseIcon = this.playPauseBtn.querySelector('.pause-icon');
+        
+        if (this.isPlaying) {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+        } else {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+        }
+    }
+
+    updateProgress() {
+        const percent = (this.audio.currentTime / this.audio.duration) * 100;
+        this.progressBar.style.width = `${percent}%`;
+        this.currentTime.textContent = this.formatTime(this.audio.currentTime);
+    }
+
+    updateDuration() {
+        this.duration.textContent = this.formatTime(this.audio.duration);
+    }
+
+    formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    handleTrackEnd() {
+        this.isPlaying = false;
+        this.updatePlayPauseIcon();
+        this.progressBar.style.width = '0%';
     }
 }
 
