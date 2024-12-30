@@ -289,8 +289,6 @@ class MusicPlayer {
     constructor() {
         this.audio = document.getElementById('audio');
         this.playPauseBtn = document.getElementById('playPauseBtn');
-        this.searchInput = document.getElementById('searchInput');
-        this.searchResults = document.getElementById('searchResults');
         this.progressBar = document.querySelector('.progress');
         this.trackName = document.querySelector('.track-name');
         this.currentTime = document.querySelector('.current-time');
@@ -299,55 +297,14 @@ class MusicPlayer {
         
         this.isPlaying = false;
         
-        // Single pre-loaded song
-        this.songs = [
-            {
-                title: "Sunset Dreams",
-                artist: "Lofi Beats",
-                preview: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
-            }
-        ];
-
-        this.initializeLocalSearch();
-        this.initializeEvents();
-        this.progressContainer.addEventListener('click', (e) => this.seek(e));
-    }
-
-    initializeLocalSearch() {
-        this.searchInput.placeholder = "Search from library...";
-        
-        this.searchInput.addEventListener('input', () => {
-            const query = this.searchInput.value.toLowerCase().trim();
-            
-            if (!query) {
-                this.searchResults.style.display = 'none';
-                return;
-            }
-
-            const results = this.songs.filter(song => 
-                song.title.toLowerCase().includes(query) || 
-                song.artist.toLowerCase().includes(query)
-            );
-
-            this.searchResults.innerHTML = '';
-            
-            if (results.length === 0) {
-                this.searchResults.innerHTML = '<div class="search-result-item">No songs found</div>';
-            } else {
-                results.forEach(song => {
-                    const div = document.createElement('div');
-                    div.className = 'search-result-item';
-                    div.innerHTML = `
-                        <span class="track-title">${song.title}</span>
-                        <span class="track-artist">${song.artist}</span>
-                    `;
-                    div.addEventListener('click', () => this.loadTrack(song));
-                    this.searchResults.appendChild(div);
-                });
-            }
-
-            this.searchResults.style.display = 'block';
+        // Load the single song
+        this.loadTrack({
+            title: "Sunset Dreams",
+            artist: "Lofi Beats",
+            preview: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
         });
+
+        this.initializeEvents();
     }
 
     initializeEvents() {
@@ -355,24 +312,17 @@ class MusicPlayer {
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.handleTrackEnd());
         this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
-
-        // Close search results when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!this.searchResults.contains(e.target) && 
-                !this.searchInput.contains(e.target)) {
-                this.searchResults.style.display = 'none';
-            }
-        });
-
         this.progressContainer.addEventListener('click', (e) => this.seek(e));
     }
 
     loadTrack(song) {
         this.audio.src = song.preview;
         this.trackName.textContent = `${song.title} - ${song.artist}`;
-        this.searchResults.style.display = 'none';
-        this.searchInput.value = '';
-        this.play();
+    }
+
+    seek(e) {
+        const percent = e.offsetX / this.progressContainer.offsetWidth;
+        this.audio.currentTime = percent * this.audio.duration;
     }
 
     togglePlay() {
@@ -428,13 +378,6 @@ class MusicPlayer {
         this.isPlaying = false;
         this.updatePlayPauseIcon();
         this.progressBar.style.width = '0%';
-    }
-
-    seek(e) {
-        // Calculate percentage
-        const percent = e.offsetX / this.progressContainer.offsetWidth;
-        // Set time based on percentage
-        this.audio.currentTime = percent * this.audio.duration;
     }
 }
 
