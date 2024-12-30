@@ -508,9 +508,86 @@ class MusicPlayer {
 // Initialize the music player
 document.addEventListener('DOMContentLoaded', () => {
     const musicPlayer = new MusicPlayer();
+    
+    // Initialize Three.js scene
+    initThreeJS();
+    
+    // Setup image upload
+    setupImageUpload();
 });
 
+function initThreeJS() {
+    // Move Three.js initialization here
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
+
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    document.body.appendChild(renderer.domElement);
+
+    camera.position.z = 12;
+    camera.position.y = 0;
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambientLight);
+
+    const galleryGroup = new THREE.Group();
+    scene.add(galleryGroup);
+
+    // Create cylinder
+    const radius = 6;
+    const height = 30;
+    const segments = 30;
+
+    const cylinderGeometry = new THREE.CylinderGeometry(
+        radius,
+        radius,
+        height,
+        segments,
+        1,
+        true
+    );
+
+    const cylinderMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.1,
+        side: THREE.DoubleSide,
+    });
+
+    const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+    galleryGroup.add(cylinder);
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    return { scene, camera, renderer, galleryGroup };
+}
+
 function setupImageUpload() {
+    // Create upload button with explicit z-index and positioning
     const uploadButton = document.createElement('button');
     uploadButton.className = 'upload-button';
     uploadButton.textContent = 'Add Images';
@@ -518,8 +595,11 @@ function setupImageUpload() {
     uploadButton.style.top = '20px';
     uploadButton.style.left = '20px';
     uploadButton.style.zIndex = '1000';
+    
+    // Ensure button is added to DOM
     document.body.appendChild(uploadButton);
 
+    // Create file input
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.multiple = true;
@@ -527,36 +607,39 @@ function setupImageUpload() {
     fileInput.style.display = 'none';
     document.body.appendChild(fileInput);
 
+    // Handle click events
     uploadButton.onclick = () => fileInput.click();
 
-    fileInput.addEventListener('change', async (event) => {
-        const files = Array.from(event.target.files);
-        const maxBlocks = numVerticalSections * blocksPerSection; // Maximum number of blocks that can fit
-
-        for (const file of files) {
-            if (blocks.length >= maxBlocks) {
-                alert('Gallery is full! Maximum number of images reached.');
-                break;
-            }
-            
-            try {
-                const texture = await loadImageFile(file);
-                const sectionIndex = Math.floor(blocks.length / blocksPerSection);
-                const blockIndex = blocks.length % blocksPerSection;
-                const yOffset = Math.random() * 0.2 - 0.1;
-                const sectionY = startY + (sectionIndex * verticalSpacing);
-                const blockContainer = await createBlock(sectionY, yOffset, sectionIndex, blockIndex, texture);
-                
-                if (blockContainer) {
-                    blocks.push(blockContainer);
-                    galleryGroup.add(blockContainer);
-                }
-            } catch (error) {
-                console.error('Error loading image:', error);
-            }
-        }
-    });
+    fileInput.addEventListener('change', handleFileSelect);
 }
+
+// Add this to your CSS to ensure button visibility
+const style = document.createElement('style');
+style.textContent = `
+    .upload-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+    }
+
+    .upload-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .upload-button:active {
+        transform: translateY(0px);
+    }
+`;
+document.head.appendChild(style);
 
 // Add this function to load uploaded files
 function loadImageFile(file) {
