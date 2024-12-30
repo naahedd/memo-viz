@@ -295,6 +295,7 @@ class MusicPlayer {
         this.trackName = document.querySelector('.track-name');
         this.currentTime = document.querySelector('.current-time');
         this.duration = document.querySelector('.duration');
+        this.progressContainer = document.querySelector('.progress-bar');
         
         this.isPlaying = false;
         
@@ -361,6 +362,8 @@ class MusicPlayer {
                 this.searchResults.style.display = 'none';
             }
         });
+
+        this.progressContainer.addEventListener('click', (e) => this.seek(e));
     }
 
     loadTrack(song) {
@@ -424,6 +427,15 @@ class MusicPlayer {
         this.isPlaying = false;
         this.updatePlayPauseIcon();
         this.progressBar.style.width = '0%';
+    }
+
+    seek(event) {
+        const progressWidth = this.progressContainer.clientWidth;
+        const clickX = event.offsetX;
+        const duration = this.audio.duration;
+        
+        // Calculate and set new time
+        this.audio.currentTime = (clickX / progressWidth) * duration;
     }
 }
 
