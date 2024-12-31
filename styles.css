@@ -7,7 +7,13 @@
 html, body {
     height: 500vh;
     width: 100vw;
-    background-color: #e6e5e3;
+    background-color: #b7df61;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+    max-width: 100%;
 }
 
 canvas {
@@ -45,9 +51,9 @@ canvas {
 
 p {
     text-transform: uppercase;
-    font-family: 'PP Monument Extended';
+    font-family: 'Arial';
     font-size: 10px;
-    font-weight: bolder;
+    font-weight: normal;
     line-height: 1.125;
     color: #fff;
 }
@@ -80,21 +86,26 @@ p {
 }
 
 .music-player {
+    width: 360px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    overflow: hidden;
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    padding: 15px;
+    background: linear-gradient(-45deg, rgb(106, 113, 42), #c6d853);
+    margin: 10px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.35);
     border-radius: 12px;
-    width: 300px;
     z-index: 1000;
-    color: white;
-    font-family: 'PP Monument Extended', sans-serif;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .player-content {
+    width: 100%;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -106,123 +117,88 @@ p {
 
 #searchInput {
     width: 100%;
-    padding: 8px 12px;
+    padding: 12px;
     border: none;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 14px;
-}
-
-#searchInput:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.95);
     border-radius: 8px;
-    margin-top: 5px;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-}
-
-.search-results::-webkit-scrollbar {
-    width: 6px;
-}
-
-.search-results::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.search-results::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-.search-result-item {
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.search-result-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.track-title {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.track-artist {
-    font-size: 12px;
-    opacity: 0.8;
-}
-
-.no-results {
-    cursor: default;
-    opacity: 0.7;
-    font-style: italic;
+    background: rgba(52, 56, 56, 0.8);
+    color: white;
+    font-family: 'Catamaran', sans-serif;
 }
 
 .controls {
+    padding: 20px 0;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .control-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    transition: all 0.2s;
-}
-
-.control-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.15s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    border-color: #d7d48c;
+    color: #d7d68c;
 }
 
 .progress-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
+    width: 100%;
+    padding: 0 10px;
+    position: relative;
 }
 
 .progress-bar {
-    flex-grow: 1;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    position: relative;
-    cursor: pointer;
+    width: 100%;
+    height: 20px;
+    background: #343838;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .progress {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background: white;
-    border-radius: 2px;
+    height: 20px;
+    background: #d7c38c;
+    position: relative;
+    border-radius: 10px;
+}
+
+.track-name {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    color: white;
+}
+
+.current-time, .duration {
+    font-size: 12.5px;
+    color: white;
+}
+
+/* Animation for hover effects */
+.control-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .music-player {
+        width: calc(100% - 40px);
+        margin: 10px;
+    }
 }
 
 .hidden {

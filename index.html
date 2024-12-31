@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+    <img src="assets/GREEN_WIGGLE2.png" style="position: fixed; top: -80px; left: -80px; width: 400px; z-index: 9999; transform: scaleX(-1); pointer-events: none;">
+    
+    <img src="assets/Red-Pixel.png" style="position: fixed; bottom: 0px; left: 10px; width: 350px; z-index: 1; pointer-events: none;">
+
+    <img src="assets/GREEN_SHAPE2.png" style="position: fixed; top: 20px; right: -150px; width: 350px; z-index: 2; pointer-events: none; transform: scaleY(-3);">
+
+    <img src="assets/SILVER_WIGGLE2.png" style="position: absolute; top: -460px; left: 50%; transform: translateX(-50%); width: 540px; z-index: 2; pointer-events: none; transform: scaleY(-1);">
+    
+    <img src="assets/Floral.png" style="position: absolute; top: -360px; left: 50%; transform: translateX(-50%); width: 540px; z-index: 1; pointer-events: none;">
+    
+    <img src="assets/memo.png" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 640px; z-index: 1; pointer-events: none;">
+
+    <img src="assets/Heart_Spin_Black.gif" style="position: absolute; top: -10px; left: 90px; transform: translateX(-50%); width: 200px; z-index: 1; pointer-events: none;">
+
+    <img src="assets/200w.gif" style="position: absolute; top: 20px; left: 1300px; transform: translateX(-50%); width: 200px; z-index: 3; pointer-events: none;">
+    
+    <img src="assets/Floral.png" style="position: fixed; bottom: 20px; left: 10px; width: 380px; z-index: 1; pointer-events: none;">
 
     <div class="nav">
         <div class="nav-col">
@@ -30,17 +47,13 @@
     <div class="music-player">
         <audio id="audio"></audio>
         <div class="player-content">
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search Songs..." />
-                <div id="searchResults" class="search-results"></div>
-            </div>
             <div class="controls">
                 <button id="playPauseBtn" class="control-btn">
                     <svg class="play-icon" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
+                        <path fill="white" d="M8 5v14l11-7z"/>
                     </svg>
                     <svg class="pause-icon hidden" viewBox="0 0 24 24">
-                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        <path fill="white" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                     </svg>
                 </button>
             </div>

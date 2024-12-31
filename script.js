@@ -15,6 +15,12 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0);
+// Add these styles to the canvas
+renderer.domElement.style.position = 'fixed';
+renderer.domElement.style.top = '0';
+renderer.domElement.style.left = '0';
+renderer.domElement.style.zIndex = '1'; // Set this to a low positive number
+
 document.body.appendChild(renderer.domElement);
 
 camera.position.z = 12;
@@ -42,7 +48,7 @@ const cylinderGeometry = new THREE.CylinderGeometry(
 );
 
 const cylinderMaterial = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
+    color: 0xb7df61,
     transparent: true,
     opacity: 0.1,
     side: THREE.DoubleSide,
@@ -264,7 +270,7 @@ async function init() {
     );
 
     const cylinderMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
+        color: 0xb7df61,
         transparent: true,
         opacity: 0.1,
         side: THREE.DoubleSide,
@@ -381,7 +387,7 @@ class MusicPlayer {
     }
 }
 
-// Initialize the music player
+// Initialize only the music player
 document.addEventListener('DOMContentLoaded', () => {
     const musicPlayer = new MusicPlayer();
 });
