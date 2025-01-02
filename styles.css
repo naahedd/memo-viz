@@ -375,3 +375,101 @@ p {
 .upload-button:active {
     transform: translateY(0px);
 }
+
+/* Add these media queries at the end of your CSS file */
+@media screen and (max-width: 768px) {
+    /* Adjust image sizes and positions for mobile */
+    img[src*="GREEN_WIGGLE2"] {
+        width: 200px; /* Smaller size */
+        top: -40px;
+        left: -40px;
+    }
+
+    img[src*="Red-Pixel"] {
+        width: 200px;
+        bottom: 0px;
+        left: 5px;
+    }
+
+    img[src*="GREEN_SHAPE2"] {
+        width: 200px;
+        right: -75px;
+    }
+
+    img[src*="SILVER_WIGGLE2"] {
+        width: 300px;
+        top: -230px;
+    }
+
+    img[src*="Floral"] {
+        width: 280px;
+    }
+
+    img[src*="memo"] {
+        width: 90%; /* Responsive width */
+        max-width: 400px;
+    }
+
+    img[src*="Heart_Spin_Black"] {
+        width: 100px;
+        left: 60px;
+    }
+
+    img[src*="200w"] {
+        display: none; /* Hide this on mobile or adjust position */
+    }
+
+    /* Music player adjustments */
+    .music-player {
+        width: calc(100% - 20px); /* Full width minus margins */
+        margin: 10px;
+        bottom: 10px;
+        left: 0;
+    }
+
+    .progress-container {
+        gap: 8px;
+    }
+
+    .track-name {
+        font-size: 12px;
+    }
+
+    .current-time, .duration {
+        font-size: 10px;
+    }
+
+    /* Upload button adjustments */
+    .upload-button {
+        padding: 8px 16px;
+        font-size: 12px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    img[src*="memo"] {
+        width: 95%;
+        top: 10px;
+    }
+
+    .music-player {
+        padding: 10px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Fix for iOS Safari notch */
+@supports (padding: max(0px)) {
+    .music-player {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+}
