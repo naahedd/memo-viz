@@ -421,32 +421,49 @@ p {
 
     /* Music player adjustments */
     .music-player {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
+        width: 120px;             /* Fixed small width */
+        margin: 0;                /* Remove margins */
         bottom: 20px;
-        transform: scale(0.9);
-        padding: 10px;
+        left: 20px;              /* Position in bottom left */
+        transform: scale(0.85);   /* Slightly smaller */
+        padding: 8px;            /* Minimal padding */
+        border-radius: 8px;      /* Smaller rounded corners */
     }
 
     .player-content {
-        gap: 8px;
-    }
-
-    .control-btn {
-        width: 35px;
-        height: 35px;
-    }
-
-    .progress-container {
-        gap: 8px;
+        gap: 4px;               /* Tighter spacing */
     }
 
     .track-name {
-        font-size: 12px;
+        font-size: 10px;        /* Smaller text */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    .current-time, .duration {
-        font-size: 10px;
+    .control-btn {
+        width: 30px;           /* Smaller play button */
+        height: 30px;
+        min-width: 30px;       /* Override any minimum sizes */
+        min-height: 30px;
+    }
+
+    .progress-container {
+        gap: 4px;
+    }
+
+    .current-time,
+    .duration {
+        font-size: 8px;       /* Smaller time text */
+    }
+
+    .progress-bar {
+        height: 4px;          /* Thinner progress bar */
+        margin: 4px 0;
+    }
+
+    .progress {
+        height: 4px;
     }
 
     /* Upload button adjustments */
