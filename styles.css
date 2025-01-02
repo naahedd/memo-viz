@@ -380,9 +380,9 @@ p {
 @media screen and (max-width: 768px) {
     /* Adjust image sizes and positions for mobile */
     img[src*="GREEN_WIGGLE2"] {
-        width: 200px; /* Smaller size */
-        top: -40px;
-        left: -40px;
+        width: 150px;
+        top: -30px;
+        left: -30px;
     }
 
     img[src*="Red-Pixel"] {
@@ -392,8 +392,8 @@ p {
     }
 
     img[src*="GREEN_SHAPE2"] {
-        width: 200px;
-        right: -75px;
+        width: 150px;
+        right: -50px;
     }
 
     img[src*="SILVER_WIGGLE2"] {
@@ -421,10 +421,20 @@ p {
 
     /* Music player adjustments */
     .music-player {
-        width: calc(100% - 20px); /* Full width minus margins */
-        margin: 10px;
-        bottom: 10px;
-        left: 0;
+        width: calc(100% - 40px);
+        margin: 10px 20px;
+        bottom: 20px;
+        transform: scale(0.9);
+        padding: 10px;
+    }
+
+    .player-content {
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 35px;
+        height: 35px;
     }
 
     .progress-container {
