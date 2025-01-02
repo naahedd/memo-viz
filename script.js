@@ -1,7 +1,3 @@
-import { inject } from '@vercel/analytics';
-
-inject();
-
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
@@ -307,7 +303,7 @@ class MusicPlayer {
         
         this.isPlaying = false;
         
-        // Load the single song
+        // Load the default track
         this.loadTrack({
             title: "Sunset Dreams",
             artist: "Lofi Beats",
@@ -393,7 +389,6 @@ class MusicPlayer {
 
 // Initialize only the music player
 document.addEventListener('DOMContentLoaded', () => {
-    init();
     const musicPlayer = new MusicPlayer();
 });
 
@@ -456,9 +451,4 @@ function loadImageFile(file) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
-}
-
-function isImageFile(filename) {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-    return imageExtensions.some(ext => filename.toLowerCase().endsWith(ext));
 }
