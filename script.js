@@ -253,7 +253,7 @@ function animate() {
     camera.position.y = -targetY;
 
     galleryGroup.rotation.y += baseRotationSpeed + rotationSpeed;
-    rotationSpeed *= 0.15;
+    rotationSpeed *= 1.5;
 
     renderer.render(scene, camera);
 }
