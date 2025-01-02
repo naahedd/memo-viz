@@ -19,10 +19,11 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0);
+// Add these styles to the canvas
 renderer.domElement.style.position = 'fixed';
 renderer.domElement.style.top = '0';
 renderer.domElement.style.left = '0';
-renderer.domElement.style.zIndex = '1'; 
+renderer.domElement.style.zIndex = '1'; // Set this to a low positive number
 
 document.body.appendChild(renderer.domElement);
 
@@ -62,21 +63,27 @@ galleryGroup.add(cylinder);
 
 const textureLoader = new THREE.TextureLoader();
 
+// Function to find all images in the assets directory
 async function findAvailableImages() {
     try {
+        // Fetch the list of files from your assets directory
         const response = await fetch('assets/');
         const text = await response.text();
         
+        // Create a temporary element to parse the directory listing
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
         
+        // Find all links (files) in the directory
         const links = Array.from(doc.querySelectorAll('a'));
         
+        // Filter for image files
         imageFiles = links
             .map(link => link.href)
             .filter(href => isImageFile(href))
-            .map(href => href.split('/').pop());
+            .map(href => href.split('/').pop()); // Get just the filename
         
+        // Initialize unusedImages with all available images
         unusedImages = [...imageFiles];
         
         console.log(`Found ${imageFiles.length} unique images:`, imageFiles);
@@ -87,6 +94,7 @@ async function findAvailableImages() {
     }
 }
 
+// Update the getRandomImage function
 function getRandomImage() {
     if (imageFiles.length === 0) return null;
     
@@ -95,12 +103,15 @@ function getRandomImage() {
         unusedImages = [...imageFiles];
     }
     
+    // Get a random index from the unused images
     const randomIndex = Math.floor(Math.random() * unusedImages.length);
+    // Remove and return the selected image
     const selectedImage = unusedImages.splice(randomIndex, 1)[0];
     
     return selectedImage;
 }
 
+// Update the loadImageTexture function
 function loadImageTexture(imageName) {
     return new Promise((resolve, reject) => {
         const texture = textureLoader.load(
@@ -166,8 +177,9 @@ return geometry;
 
 }
 
-const NUM_IMAGES = 5; 
+const NUM_IMAGES = 5; // Your number of images
 
+// Keep only one set of these constants
 const numVerticalSections = 6;
 const blocksPerSection = 4;
 const verticalSpacing = 4.5;
@@ -175,6 +187,7 @@ const totalBlockHeight = numVerticalSections * verticalSpacing;
 const heightBuffer = (height - totalBlockHeight) / 2;
 const startY = -height / 2 + heightBuffer + verticalSpacing;
 
+// Calculate total blocks needed
 const totalBlocks = numVerticalSections * blocksPerSection;
 
 const sectionAngle = (Math.PI * 2) / blocksPerSection;
@@ -248,7 +261,9 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+// Modify the initialization to be sequential
 async function init() {
+    // Create empty cylinder
     const cylinderGeometry = new THREE.CylinderGeometry(
         radius,
         radius,
@@ -272,10 +287,12 @@ async function init() {
     animate();
 }
 
+// Start the initialization
 init().catch(error => {
     console.error('Initialization failed:', error);
 });
 
+// Set a dark background color
 renderer.setClearColor(0x000000, 0);
 
 class MusicPlayer {
@@ -290,6 +307,7 @@ class MusicPlayer {
         
         this.isPlaying = false;
         
+        // Load the single song
         this.loadTrack({
             title: "Sunset Dreams",
             artist: "Lofi Beats",
@@ -373,6 +391,7 @@ class MusicPlayer {
     }
 }
 
+// Initialize only the music player
 document.addEventListener('DOMContentLoaded', () => {
     const musicPlayer = new MusicPlayer();
 });
@@ -425,6 +444,7 @@ function setupImageUpload() {
     });
 }
 
+// Add this function to load uploaded files
 function loadImageFile(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
