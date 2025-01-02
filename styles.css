@@ -257,7 +257,6 @@ p {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* Add/update these responsive styles */
 @media screen and (max-width: 768px) {
     /* Gallery adjustments */
     canvas {
@@ -325,7 +324,6 @@ p {
     }
 }
 
-/* Prevent text selection on controls */
 .music-player {
     -webkit-user-select: none;
     user-select: none;
@@ -376,32 +374,31 @@ p {
     transform: translateY(0px);
 }
 
-/* Add these media queries at the end of your CSS file */
 @media screen and (max-width: 768px) {
     /* Adjust all decorative images for mobile */
     img[src*="GREEN_WIGGLE2"],
     img[src*="GREEN_SHAPE2"],
     img[src*="Heart_Spin_Black"] {
-        display: none;  /* Hide these as requested */
+        display: none;  
     }
 
     img[src*="Red-Pixel"] {
-        width: 150px;          /* Reduced from 350px */
+        width: 150px;          
         bottom: 0px;
         left: 5px;
     }
 
     img[src*="SILVER_WIGGLE2"] {
-        width: 300px;          /* Reduced from 540px */
+        width: 300px;          
         top: -230px;
     }
 
     img[src*="Floral"] {
-        width: 200px;          /* Reduced from 540px/380px */
+        width: 200px;          
     }
 
     img[src*="memo"] {
-        width: 400px;          /* Reduced from 640px */
+        width: 400px;          
         top: 20px;
     }
 
@@ -463,13 +460,13 @@ img[src*="GREEN_SHAPE2"] {
 /* Mobile adjustments */
 @media screen and (max-width: 768px) {
     img[src*="GREEN_WIGGLE2"] {
-        width: 100px;  /* Much smaller */
+        width: 100px;  
         top: -20px;
         left: -20px;
     }
 
     img[src*="GREEN_SHAPE2"] {
-        width: 100px;  /* Much smaller */
+        width: 100px;  
         right: -30px;
         top: 10px;
     }
@@ -489,7 +486,7 @@ img[src*="GREEN_SHAPE2"] {
 /* Mobile adjustments */
 @media screen and (max-width: 768px) {
     .logo {
-        width: 350px;
+        width: 400px;
         top: 20px;
     }
 }
@@ -497,7 +494,7 @@ img[src*="GREEN_SHAPE2"] {
 /* Very small screens */
 @media screen and (max-width: 480px) {
     .logo {
-        width: 250px;
+        width: 350px;
         top: 15px;
     }
 }
