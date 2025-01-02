@@ -393,6 +393,7 @@ class MusicPlayer {
 
 // Initialize only the music player
 document.addEventListener('DOMContentLoaded', () => {
+    init();
     const musicPlayer = new MusicPlayer();
 });
 
@@ -455,4 +456,9 @@ function loadImageFile(file) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
+}
+
+function isImageFile(filename) {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+    return imageExtensions.some(ext => filename.toLowerCase().endsWith(ext));
 }
