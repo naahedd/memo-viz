@@ -474,3 +474,173 @@ img[src*="GREEN_SHAPE2"] {
         top: 10px;
     }
 }
+
+@media screen and (max-width: 768px) {
+    /* Logo (memo) and surrounding elements */
+    img[src*="memo"] {
+        width: 200px;          /* Even smaller logo */
+        top: 15px;
+        z-index: 3;           /* Ensure logo stays on top */
+    }
+
+    img[src*="SILVER_WIGGLE2"] {
+        width: 180px;         /* Smaller wiggle */
+        top: -100px;         /* Adjusted position */
+        transform: translateX(-50%) scaleY(-0.8); /* Adjusted scale */
+    }
+
+    img[src*="Floral"] {
+        width: 140px;        /* Smaller floral */
+    }
+
+    /* Bottom elements */
+    img[src*="Red-Pixel"] {
+        width: 120px;        /* Smaller red pixel */
+        bottom: 5px;
+        left: 5px;
+    }
+
+    /* Bottom Floral specific adjustment */
+    img[src*="Floral"]:last-of-type {
+        width: 120px;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    /* Music player adjustments */
+    .music-player {
+        width: 120px;        /* Compact music player */
+        padding: 8px;
+        bottom: 15px;
+        left: 15px;
+        transform: scale(0.85);
+    }
+
+    .player-content {
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .control-btn {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        min-height: 30px;
+    }
+
+    .track-name {
+        font-size: 9px;
+    }
+
+    .progress-bar {
+        height: 3px;
+        margin: 3px 0;
+    }
+
+    .current-time, .duration {
+        font-size: 8px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    img[src*="memo"] {
+        width: 180px;        /* Even smaller for very small screens */
+        top: 10px;
+    }
+
+    img[src*="SILVER_WIGGLE2"] {
+        width: 160px;
+        top: -80px;
+    }
+}
+
+/* Base styles for all decorative images */
+img[src*="GREEN_WIGGLE2"] {
+    position: fixed;
+    top: -80px;
+    left: -80px;
+    width: 400px;
+    z-index: 1;
+    pointer-events: none;
+    transform: scaleX(-1);
+}
+
+img[src*="Red-Pixel"] {
+    position: fixed;
+    bottom: 0;
+    left: 10px;
+    width: 350px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+img[src*="GREEN_SHAPE2"] {
+    position: fixed;
+    top: 20px;
+    right: -150px;
+    width: 350px;
+    z-index: 2;
+    pointer-events: none;
+    transform: scaleY(-3);
+}
+
+img[src*="SILVER_WIGGLE2"] {
+    position: absolute;
+    top: -460px;
+    left: 50%;
+    transform: translateX(-50%) scaleY(-1);
+    width: 540px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+img[src*="Floral"] {
+    position: absolute;
+    top: -360px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 540px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+img[src*="memo"] {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 640px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+img[src*="Heart_Spin_Black"] {
+    position: absolute;
+    top: -10px;
+    left: 90px;
+    transform: translateX(-50%);
+    width: 200px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+img[src*="200w"] {
+    position: absolute;
+    top: 20px;
+    left: 1300px;
+    transform: translateX(-50%);
+    width: 200px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Bottom Floral specific style */
+.bottom-floral {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 10px !important;
+    width: 380px !important;
+    z-index: 1;
+    pointer-events: none;
+}
