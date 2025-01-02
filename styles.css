@@ -401,8 +401,8 @@ p {
     }
 
     img[src*="memo"] {
-        width: 350px;          /* Reduced from 640px */
-        top: 10px;
+        width: 400px;          /* Reduced from 640px */
+        top: 20px;
     }
 
     img[src*="200w"] {
@@ -420,8 +420,8 @@ p {
 /* For very small screens */
 @media screen and (max-width: 480px) {
     img[src*="memo"] {
-        width: 250px;
-        top: 5px;
+        width: 350px;
+        top: 10px;
     }
 
     img[src*="SILVER_WIGGLE2"] {
@@ -490,7 +490,7 @@ img[src*="GREEN_SHAPE2"] {
 @media screen and (max-width: 768px) {
     .logo {
         width: 350px;
-        top: 10px;
+        top: 20px;
     }
 }
 
@@ -498,6 +498,6 @@ img[src*="GREEN_SHAPE2"] {
 @media screen and (max-width: 480px) {
     .logo {
         width: 250px;
-        top: 5px;
+        top: 15px;
     }
 }
