@@ -237,12 +237,12 @@ const lenis = new Lenis({
 let currentScroll = 0;
 const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
 let rotationSpeed = 0;
-const baseRotationSpeed = 0.0025;
-const maxRotationSpeed = 0.05;
+const baseRotationSpeed = 0.0015;
+const maxRotationSpeed = 0.02;
 
 lenis.on("scroll", (e) => {
     currentScroll = window.pageYOffset;
-    rotationSpeed = e.velocity * 0.005;
+    rotationSpeed = e.velocity * 0.002;
 });
 
 function animate() {
@@ -253,7 +253,7 @@ function animate() {
     camera.position.y = -targetY;
 
     galleryGroup.rotation.y += baseRotationSpeed + rotationSpeed;
-    rotationSpeed *= 2;
+    rotationSpeed *= 0.15;
 
     renderer.render(scene, camera);
 }
