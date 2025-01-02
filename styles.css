@@ -474,3 +474,30 @@ img[src*="GREEN_SHAPE2"] {
         top: 10px;
     }
 }
+
+/* Base logo style */
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 640px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 280px;
+        top: 10px;
+    }
+}
+
+/* Very small screens */
+@media screen and (max-width: 480px) {
+    .logo {
+        width: 200px;
+        top: 5px;
+    }
+}
