@@ -401,7 +401,7 @@ p {
     }
 
     img[src*="memo"] {
-        width: 280px;          /* Reduced from 640px */
+        width: 350px;          /* Reduced from 640px */
         top: 10px;
     }
 
@@ -420,7 +420,7 @@ p {
 /* For very small screens */
 @media screen and (max-width: 480px) {
     img[src*="memo"] {
-        width: 200px;
+        width: 250px;
         top: 5px;
     }
 
@@ -489,7 +489,7 @@ img[src*="GREEN_SHAPE2"] {
 /* Mobile adjustments */
 @media screen and (max-width: 768px) {
     .logo {
-        width: 280px;
+        width: 350px;
         top: 10px;
     }
 }
@@ -497,7 +497,7 @@ img[src*="GREEN_SHAPE2"] {
 /* Very small screens */
 @media screen and (max-width: 480px) {
     .logo {
-        width: 200px;
+        width: 250px;
         top: 5px;
     }
 }
