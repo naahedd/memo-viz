@@ -378,117 +378,55 @@ p {
 
 /* Add these media queries at the end of your CSS file */
 @media screen and (max-width: 768px) {
-    /* Adjust image sizes and positions for mobile */
-    img[src*="GREEN_WIGGLE2"] {
-        width: 150px;
-        top: -30px;
-        left: -30px;
+    /* Adjust all decorative images for mobile */
+    img[src*="GREEN_WIGGLE2"],
+    img[src*="GREEN_SHAPE2"],
+    img[src*="Heart_Spin_Black"] {
+        display: none;  /* Hide these as requested */
     }
 
     img[src*="Red-Pixel"] {
-        width: 200px;
+        width: 150px;          /* Reduced from 350px */
         bottom: 0px;
         left: 5px;
     }
 
-    img[src*="GREEN_SHAPE2"] {
-        width: 150px;
-        right: -50px;
-    }
-
     img[src*="SILVER_WIGGLE2"] {
-        width: 300px;
+        width: 300px;          /* Reduced from 540px */
         top: -230px;
     }
 
     img[src*="Floral"] {
-        width: 280px;
+        width: 200px;          /* Reduced from 540px/380px */
     }
 
     img[src*="memo"] {
-        width: 90%; /* Responsive width */
-        max-width: 400px;
-    }
-
-    img[src*="Heart_Spin_Black"] {
-        width: 100px;
-        left: 60px;
+        width: 280px;          /* Reduced from 640px */
+        top: 10px;
     }
 
     img[src*="200w"] {
-        display: none; /* Hide this on mobile or adjust position */
+        display: none;         /* Hide on mobile */
     }
 
-    /* Music player adjustments */
-    .music-player {
-        width: 120px;             /* Fixed small width */
-        margin: 0;                /* Remove margins */
-        bottom: 20px;
-        left: 20px;              /* Position in bottom left */
-        transform: scale(0.85);   /* Slightly smaller */
-        padding: 8px;            /* Minimal padding */
-        border-radius: 8px;      /* Smaller rounded corners */
-    }
-
-    .player-content {
-        gap: 4px;               /* Tighter spacing */
-    }
-
-    .track-name {
-        font-size: 10px;        /* Smaller text */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .control-btn {
-        width: 30px;           /* Smaller play button */
-        height: 30px;
-        min-width: 30px;       /* Override any minimum sizes */
-        min-height: 30px;
-    }
-
-    .progress-container {
-        gap: 4px;
-    }
-
-    .current-time,
-    .duration {
-        font-size: 8px;       /* Smaller time text */
-    }
-
-    .progress-bar {
-        height: 4px;          /* Thinner progress bar */
-        margin: 4px 0;
-    }
-
-    .progress {
-        height: 4px;
-    }
-
-    /* Upload button adjustments */
-    .upload-button {
-        padding: 8px 16px;
-        font-size: 12px;
-        top: 10px;
-        right: 10px;
+    /* Bottom Floral specific adjustment */
+    img[src*="Floral"]:last-of-type {
+        width: 180px;
+        bottom: 10px;
+        left: 5px;
     }
 }
 
 /* For very small screens */
 @media screen and (max-width: 480px) {
     img[src*="memo"] {
-        width: 95%;
-        top: 10px;
+        width: 250px;
+        top: 5px;
     }
 
-    .music-player {
-        padding: 10px;
-    }
-
-    .control-btn {
-        width: 40px;
-        height: 40px;
+    img[src*="SILVER_WIGGLE2"] {
+        width: 250px;
+        top: -180px;
     }
 }
 
@@ -498,5 +436,41 @@ p {
         padding-bottom: max(20px, env(safe-area-inset-bottom));
         padding-left: max(20px, env(safe-area-inset-left));
         padding-right: max(20px, env(safe-area-inset-right));
+    }
+}
+
+/* Desktop styles for decorative images */
+img[src*="GREEN_WIGGLE2"] {
+    position: fixed;
+    top: -80px;
+    left: -80px;
+    width: 400px;
+    z-index: 9999;
+    transform: scaleX(-1);
+    pointer-events: none;
+}
+
+img[src*="GREEN_SHAPE2"] {
+    position: fixed;
+    top: 20px;
+    right: -150px;
+    width: 350px;
+    z-index: 2;
+    pointer-events: none;
+    transform: scaleY(-3);
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+    img[src*="GREEN_WIGGLE2"] {
+        width: 100px;  /* Much smaller */
+        top: -20px;
+        left: -20px;
+    }
+
+    img[src*="GREEN_SHAPE2"] {
+        width: 100px;  /* Much smaller */
+        right: -30px;
+        top: 10px;
     }
 }
