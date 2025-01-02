@@ -401,7 +401,7 @@ p {
     }
 
     img[src*="memo"] {
-        width: 100px;          /* Reduced from 640px */
+        width: 280px;          /* Reduced from 640px */
         top: 10px;
     }
 
@@ -420,7 +420,7 @@ p {
 /* For very small screens */
 @media screen and (max-width: 480px) {
     img[src*="memo"] {
-        width: 50px;
+        width: 200px;
         top: 5px;
     }
 
